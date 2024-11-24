@@ -1,5 +1,5 @@
 // ./gradlew clean build generateRelease
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 def groupId = project.PUBLISH_GROUP_ID
 def artifactId = project.PUBLISH_ARTIFACT_ID
@@ -18,29 +18,35 @@ task androidJavadocs(type: Javadoc) {
 }
 
 task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-    classifier = 'javadoc'
+    archiveClassifier  = 'javadoc'
     from androidJavadocs.destinationDir
 }
 
 task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier  = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        pom.groupId = groupId
-        pom.artifactId = artifactId
-        pom.version = version
-        // Add other pom properties here if you want (developer details / licenses)
-        repository(url: "file://${localReleaseDest}")
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = project.PUBLISH_GROUP_ID
+            artifactId = project.PUBLISH_ARTIFACT_ID
+            version = project.PUBLISH_VERSION
+        }
+    }
+    repositories {
+        maven {
+            name = 'localRelease'  // Added name for the repository
+            url = uri("file://${localReleaseDest}")
+        }
     }
 }
 
 task zipRelease(type: Zip) {
     from localReleaseDest
-    destinationDir buildDir
-    archiveName "release-${version}.zip"
+    destinationDirectory = buildDir
+    archiveFileName = "release-${version}.zip"
 }
 
 task generateRelease {
@@ -62,7 +68,7 @@ task generateRelease {
     }
 }
 
-generateRelease.dependsOn(uploadArchives)
+generateRelease.dependsOn('publish')
 generateRelease.dependsOn(zipRelease)
 
 

@@ -2,8 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdk 34
+
+    namespace "com.example.ftclibexamples"
 
     defaultConfig {
         minSdkVersion 24
@@ -36,15 +37,15 @@ configurations.all {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation project(path: ':core')
 
-    compileOnly 'org.firstinspires.ftc:Inspection:9.0.1'
-    compileOnly 'org.firstinspires.ftc:Blocks:9.0.1'
-    compileOnly 'org.firstinspires.ftc:RobotCore:9.0.1'
-    compileOnly 'org.firstinspires.ftc:RobotServer:9.0.1'
-    compileOnly 'org.firstinspires.ftc:Hardware:9.0.1'
-    compileOnly 'org.firstinspires.ftc:FtcCommon:9.0.1'
+    compileOnly 'org.firstinspires.ftc:Inspection:10.1.1'
+    compileOnly 'org.firstinspires.ftc:Blocks:10.1.1'
+    compileOnly 'org.firstinspires.ftc:RobotCore:10.1.1'
+    compileOnly 'org.firstinspires.ftc:RobotServer:10.1.1'
+    compileOnly 'org.firstinspires.ftc:Hardware:10.1.1'
+    compileOnly 'org.firstinspires.ftc:FtcCommon:10.1.1'
     implementation project(path: ':core:vision')
 //    implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
